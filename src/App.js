@@ -144,7 +144,9 @@ function OrdersDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/c/aa03-ff88-4bf2-8c2d") // 👈 real API
+    fetch(
+      "https://td3032620.app.netsuite.com/app/common/scripting/scriptrecord.nl?id=8"
+    ) // 👈 real API
       .then((res) => res.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
@@ -215,7 +217,9 @@ function InventorySync() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/c/cb43-1385-4463-9f1d") // 👈 using provided API
+    fetch(
+      "https://td3032620.app.netsuite.com/app/site/hosting/scriptlet.nl?script=99&deploy=1"
+    ) // 👈 using provided API
       .then((res) => res.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
