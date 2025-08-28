@@ -60,7 +60,7 @@ function FieldMapping() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/mappings") // <-- replace with your Suitelet/Express API endpoint
+    fetch("/api/mappings") // your own backend API or mock
       .then((res) => res.json())
       .then((data) => {
         setMappings(data);
@@ -73,7 +73,6 @@ function FieldMapping() {
     if (!sku || !item) return;
     const newMapping = { sku, item };
 
-    // POST to API
     await fetch("/api/mappings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -144,13 +143,11 @@ function OrdersDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(
-      "https://td3032620.app.netsuite.com/app/common/scripting/scriptrecord.nl?id=8"
-    ) // 👈 real API
+    fetch("https://dummyjson.com/c/5ef3-33fb-4b47-b95a")
       .then((res) => res.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
-          setOrders(data.data); // use `data.data` since it's nested
+          setOrders(data.data);
         }
         setLoading(false);
       })
@@ -211,19 +208,16 @@ function OrdersDashboard() {
 }
 
 // 🔹 Inventory Sync (API Driven)
-// 🔹 Inventory Sync (API Driven)
 function InventorySync() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(
-      "https://td3032620.app.netsuite.com/app/site/hosting/scriptlet.nl?script=99&deploy=1"
-    ) // 👈 using provided API
+    fetch("https://dummyjson.com/c/cb43-1385-4463-9f1d")
       .then((res) => res.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
-          setItems(data.data); // API returns inside "data"
+          setItems(data.data);
         }
         setLoading(false);
       })
