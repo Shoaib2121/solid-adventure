@@ -216,7 +216,9 @@ function OrdersDashboard({ searchTerm }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/c/5ef3-33fb-4b47-b95a")
+    fetch(
+      "https://td3032620.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=97&deploy=1&compid=TD3032620&ns-at=AAEJ7tMQFHrjyiJxScATuDJpqEsspSQ73OKWi096Lf3rp2P4jNU"
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.success && Array.isArray(data.data)) {
@@ -248,7 +250,6 @@ function OrdersDashboard({ searchTerm }) {
                 <th className="px-4 py-2 text-left">Tran ID</th>
                 <th className="px-4 py-2 text-left">Date</th>
                 <th className="px-4 py-2 text-left">Status</th>
-                <th className="px-4 py-2 text-left">Customer</th>
                 <th className="px-4 py-2 text-left">Amount</th>
                 <th className="px-4 py-2 text-left">Action</th>
               </tr>
@@ -264,7 +265,7 @@ function OrdersDashboard({ searchTerm }) {
                       {o.salesOrder.status}
                     </span>
                   </td>
-                  <td className="px-4 py-2">{o.salesOrder.customer}</td>
+
                   <td className="px-4 py-2">${o.salesOrder.total}</td>
                   <td className="px-4 py-2">
                     <a
