@@ -12,7 +12,7 @@ export default function InventorySync() {
     const fetchInventory = async () => {
       try {
         const res = await fetch(
-          "/netsuite-api/app/site/hosting/scriptlet.nl?script=99&deploy=1&compid=TD3032620&ns-at=AAEJ7tMQZ7cccAU6W7MOeCTu5No9Jszw0CV_6cNhzByn8MXjXaU"
+          "https://td3032620.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=99&deploy=1&compid=TD3032620&ns-at=AAEJ7tMQZ7cccAU6W7MOeCTu5No9Jszw0CV_6cNhzByn8MXjXaU"
         );
         const json = await res.json();
 
