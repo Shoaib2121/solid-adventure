@@ -7,16 +7,23 @@ export default function InventorySync() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch API data
   useEffect(() => {
     const fetchInventory = async () => {
       try {
-        const response = await fetch(
+        const res = await fetch(
           "/netsuite-api/app/site/hosting/scriptlet.nl?script=99&deploy=1&compid=TD3032620&ns-at=AAEJ7tMQZ7cccAU6W7MOeCTu5No9Jszw0CV_6cNhzByn8MXjXaU"
         );
-        const data = await response.json();
+        const json = await res.json();
 
-        if (data.success) {
-          setItems(data.data);
+        if (json.success && json.data) {
+          const mappedItems = json.data.map((item) => ({
+            id: item.id,
+            name: item.name,
+            qtyAvailable: item.qtyAvailable,
+            qtyOnHand: item.qtyOnHand,
+          }));
+          setItems(mappedItems);
         } else {
           throw new Error("Failed to fetch inventory data");
         }
@@ -30,6 +37,7 @@ export default function InventorySync() {
     fetchInventory();
   }, []);
 
+  // Search filter
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -80,8 +88,8 @@ export default function InventorySync() {
                   </td>
                 </tr>
               ) : (
-                filteredItems.map((item, idx) => (
-                  <tr key={item.id || idx} className="border-t">
+                filteredItems.map((item) => (
+                  <tr key={item.id} className="border-t">
                     <td className="px-2 py-2 break-words max-w-xs">
                       {item.name}
                     </td>
