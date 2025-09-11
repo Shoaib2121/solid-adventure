@@ -155,7 +155,11 @@ export default function OrderDashboard() {
                 <td className="px-2 py-2">{order.amount}</td>
                 <td className="px-2 py-2 flex space-x-2">
                   <a
-                    href={order.link}
+                    href={
+                      order.link && !order.link.startsWith("http")
+                        ? `https://td3032620.extforms.netsuite.com${order.link}`
+                        : order.link
+                    }
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:underline"
