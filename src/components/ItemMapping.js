@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Edit, Trash2, Search, X } from "lucide-react";
 
 export default function ItemMapping() {
@@ -14,21 +14,6 @@ export default function ItemMapping() {
     platform3: "",
   });
   const [saving, setSaving] = useState(false);
-
-  // Fetch initial mappings from Suitelet
-  useEffect(() => {
-    const fetchMappings = async () => {
-      try {
-        const res = await fetch();
-        //"https://<account>.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=92&deploy=1&compid=TD3032620&h=xxxx"
-        const data = await res.json();
-        setMappings(data);
-      } catch (err) {
-        console.error("Error loading mappings:", err);
-      }
-    };
-    fetchMappings();
-  }, []);
 
   const filteredMappings = mappings.filter(
     (m) =>
