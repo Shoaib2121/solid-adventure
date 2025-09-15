@@ -74,7 +74,7 @@ export default function ItemMapping() {
                       mode: "cors",
                       headers: {
                         "Content-Type": "application/json",
-                        "User-Agent": "Mozilla/5.0",
+                        //"User Agent": "Mozilla/5.0", // ✅ keep only this
                       },
                       body: JSON.stringify(newMapping),
                     }
