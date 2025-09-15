@@ -71,6 +71,7 @@ export default function ItemMapping() {
                     "https://td3032620.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=128&deploy=1&compid=TD3032620&ns-at=AAEJ7tMQQB9WBes4OJ5w_Zp_EmnCNjh0ctgkeZWH-Ve31cdjswE",
                     {
                       method: "POST",
+                      mode: "cors",
                       headers: {
                         "Content-Type": "application/json",
                         "User-Agent": "Mozilla/5.0",
