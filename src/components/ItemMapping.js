@@ -1,8 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Edit, Trash2, Search, X } from "lucide-react";
 
 export default function ItemMapping() {
   const [mappings, setMappings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  // Fetch mappings from API on mount
+  useEffect(() => {
+    const fetchMappings = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(
+          "https://td3032620.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=129&deploy=1&compid=TD3032620&ns-at=AAEJ7tMQFQQGgRH9h-F3kJyrP0OFfdE1_ReCgHk1xZBh-w6MPH8"
+        );
+        if (!res.ok) throw new Error("Failed to fetch mappings");
+        const json = await res.json();
+        setMappings(Array.isArray(json.data) ? json.data : []);
+      } catch (err) {
+        setError("Error loading mappings");
+        setMappings([]);
+        console.error("Error loading mappings:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMappings();
+  }, []);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [newMapping, setNewMapping] = useState({
@@ -20,9 +44,7 @@ export default function ItemMapping() {
       m.platform?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       m.productId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       m.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      m.platform1?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      m.platform2?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      m.platform3?.toLowerCase().includes(searchTerm.toLowerCase())
+      m.amazonProductId?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -223,47 +245,52 @@ export default function ItemMapping() {
 
       {/* Table */}
       <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full text-xs md:text-sm">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-2 py-2 text-left">Platform</th>
-              <th className="px-2 py-2 text-left">Product ID</th>
-              <th className="px-2 py-2 text-left">Product Name</th>
-              <th className="px-2 py-2 text-left">Platform 1</th>
-              <th className="px-2 py-2 text-left">Platform 2</th>
-              <th className="px-2 py-2 text-left">Platform 3</th>
-              <th className="px-2 py-2 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredMappings.length === 0 ? (
+        {loading ? (
+          <div className="p-6 text-center text-gray-500">Loading...</div>
+        ) : error ? (
+          <div className="p-6 text-center text-red-500">{error}</div>
+        ) : (
+          <table className="min-w-full text-xs md:text-sm">
+            <thead className="bg-gray-100">
               <tr>
-                <td colSpan="7" className="px-2 py-4 text-center text-gray-500">
-                  No mappings found.
-                </td>
+                <th className="px-2 py-2 text-left">Platform</th>
+                <th className="px-2 py-2 text-left">Product ID</th>
+                <th className="px-2 py-2 text-left">Product Name</th>
+                <th className="px-2 py-2 text-left">Amazon Product ID</th>
+                <th className="px-2 py-2 text-left">Actions</th>
               </tr>
-            ) : (
-              filteredMappings.map((m, idx) => (
-                <tr key={idx} className="border-t">
-                  <td className="px-2 py-2">{m.platform}</td>
-                  <td className="px-2 py-2">{m.productId}</td>
-                  <td className="px-2 py-2">{m.productName}</td>
-                  <td className="px-2 py-2">{m.platform1}</td>
-                  <td className="px-2 py-2">{m.platform2}</td>
-                  <td className="px-2 py-2">{m.platform3}</td>
-                  <td className="px-2 py-2 flex space-x-2">
-                    <button className="text-blue-700 hover:underline">
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button className="text-red-600 hover:underline">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+            </thead>
+            <tbody>
+              {filteredMappings.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="px-2 py-4 text-center text-gray-500"
+                  >
+                    No mappings found.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                filteredMappings.map((m, idx) => (
+                  <tr key={idx} className="border-t">
+                    <td className="px-2 py-2">{m.platform}</td>
+                    <td className="px-2 py-2">{m.productId}</td>
+                    <td className="px-2 py-2">{m.productName}</td>
+                    <td className="px-2 py-2">{m.amazonProductId}</td>
+                    <td className="px-2 py-2 flex space-x-2">
+                      <button className="text-blue-700 hover:underline">
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button className="text-red-600 hover:underline">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );
