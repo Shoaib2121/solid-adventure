@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Search } from "lucide-react";
 import Sidebar from "./components/Sidebar";
 import ItemMapping from "./components/ItemMapping";
+import JsonMapper from "./components/JsonMapper";
 import InventorySync from "./components/InventorySync";
 import OrderDashboard from "./components/OrderDashboard";
 import Placeholder from "./components/Placeholder";
@@ -29,6 +30,8 @@ export default function Dashboard() {
                 ? "Order Dashboard"
                 : activeTab === "inventory"
                 ? "Inventory Sync"
+                : activeTab === "fieldmapping"
+                ? "Field Mapping"
                 : activeTab === "settings"
                 ? "Settings"
                 : "Help & Support"}
@@ -63,6 +66,7 @@ export default function Dashboard() {
           {activeTab === "mapping" && <ItemMapping />}
           {activeTab === "orders" && <OrderDashboard />}
           {activeTab === "inventory" && <InventorySync />}
+          {activeTab === "fieldmapping" && <JsonMapper />}
           {activeTab === "settings" && <Placeholder title="Settings" />}
           {activeTab === "help" && <Placeholder title="Help & Support" />}
         </main>

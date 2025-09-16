@@ -65,6 +65,15 @@ export default function Sidebar({ activeTab, setActiveTab }) {
             setOpen(false);
           }}
         />
+        <SidebarButton
+          icon={<Settings className="w-5 h-5 mr-3" />}
+          label="Field Mapping"
+          active={activeTab === "fieldmapping"}
+          onClick={() => {
+            setActiveTab("fieldmapping");
+            setOpen(false);
+          }}
+        />
         <br />
         <hr className="mt-8 mb-2 my-4 border-t border-white border-opacity-20" />
         {/* Tools */}
